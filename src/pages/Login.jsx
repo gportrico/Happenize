@@ -34,13 +34,12 @@ export function Login() {
         style={{ pointerEvents: "none" }}
       />
       <div className="relative max-w-md mx-auto p-4 z-10">
-        
+
         <div className="text-center">
           <Logo />
         </div>
 
         <div className="pt-6 pb-4">
-          <Title title="Faça seu cadastro" />
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -67,16 +66,16 @@ export function Login() {
           {erro && <p style={{ color: "red" }}>{erro}</p>}
 
           <div className="text-center pt-4">
-            <Button type="submit">Acessar</Button>
+            <Button type="submit">Login</Button>
           </div>
         </form>
 
         <div className="text-center pt-8">
           <Link
             to="/register"
-            className="text-blue-600 hover:underline"
+            className="text-black-600 hover:underline"
           >
-            Faça seu cadastro
+            Primeira vez aqui? <strong>Cadastre-se</strong>
           </Link>
         </div>
       </div>

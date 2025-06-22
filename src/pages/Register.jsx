@@ -37,7 +37,6 @@ export function Register() {
                 </div>
 
                 <div className="pt-6 pb-4">
-                    <Title title="Bem-vindo de volta" />
                 </div>
 
                 <form onSubmit={handleSubmit}>
@@ -80,7 +79,7 @@ export function Register() {
                 </form>
 
                 <div className="text-center pt-8">
-                    <Link to="/login" className="text-blue-600 hover:underline">
+                    <Link to="/login" className="text-black-600 hover:underline">
                         Já tem cadastro? <strong>Faça Login</strong>
                     </Link>
                 </div>
