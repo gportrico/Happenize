@@ -3,6 +3,7 @@ import { Navbar, Logo, Title, Input, Button } from "../components";
 import { signIn } from "../services/authService";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import eventBg from "../assets/images/event01.jpg"; // importação da imagem
 
 export function Login() {
   const [email, setEmail] = useState("");
@@ -25,7 +26,15 @@ export function Login() {
 
   return (
     <>
-      <div className="max-w-md mx-auto p-4">
+      {/* Imagem de fundo no topo */}
+      <img
+        src={eventBg}
+        alt="Evento"
+        className="fixed top-0 left-0 w-full max-h-75 object-cover z-0"
+        style={{ pointerEvents: "none" }}
+      />
+      <div className="relative max-w-md mx-auto p-4 z-10">
+        
         <div className="text-center">
           <Logo />
         </div>

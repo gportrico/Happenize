@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Navbar, Logo, Title, Input, Button } from "../components";
 import { Link, useNavigate } from "react-router-dom";
 import { signUp } from "../services/authService";
+import eventBg from "../assets/images/event02.jpg"; // importação da imagem
 
 export function Register() {
     const [name, setName] = useState("");
@@ -23,7 +24,14 @@ export function Register() {
 
     return (
         <>
-            <div className="max-w-md mx-auto p-4">
+            {/* Imagem de fundo no topo */}
+            <img
+                src={eventBg}
+                alt="Evento"
+                className="fixed top-0 left-0 w-full max-h-75 object-cover z-0"
+                style={{ pointerEvents: "none" }}
+            />
+            <div className="relative max-w-md mx-auto p-4 z-10">
                 <div className="text-center">
                     <Logo />
                 </div>
