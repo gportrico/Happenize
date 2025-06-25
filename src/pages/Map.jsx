@@ -49,7 +49,7 @@ export const Map = () => {
     try {
       const savedPoint = await postPoint(token, newPoint);
       
-      // savedPoint vem com os campos id, latitude, longitude e description
+      // savedPoint vem com os campos id, latitude, longitude e descricao
       // Precisamos transformar em um objeto com os campos id, title, position
       const savedMarker = {
         id: savedPoint.id,

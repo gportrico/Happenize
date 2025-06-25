@@ -19,25 +19,25 @@ export async function getPoints(token) {
       data: [
       {
         id: 1,
-        description: 'Avenida Paulista',
+        descricao: 'Avenida Paulista',
         latitude: -23.561684,
         longitude: -46.656139,
       },
       {
         id: 2,
-        description: 'Parque Ibirapuera',
+        descricao: 'Parque Ibirapuera',
         latitude: -23.587416,
         longitude: -46.657634,
       },
       {
         id: 3,
-        description: 'Mercadão Municipal',
+        descricao: 'Mercadão Municipal',
         latitude: -23.541212,
         longitude: -46.627684,
       },
       {
         id: 4,
-        description: 'Estação da Luz',
+        descricao: 'Estação da Luz',
         latitude: -23.536578,
         longitude: -46.633309,
       },
@@ -53,7 +53,6 @@ export async function getPoints(token) {
         lat: point.latitude,
         lng: point.longitude,
       },
-      description: point.description,
     }));
 
     if (response.status === 200) {
