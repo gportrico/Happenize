@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://passing-agatha-atitus-0ca94c8f.koyeb.app/auth';
+const API_URL = 'https://clean-rochette-ricardozanandrea-57ed8226.koyeb.app/auth';
 
 export async function signIn(email, password) {
   try {
