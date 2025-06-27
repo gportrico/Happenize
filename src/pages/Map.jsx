@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState } from "react";
-import { Navbar } from "../components";
+import { Navbar, Modal } from "../components";
 import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from "@react-google-maps/api";
 import { getPoints, postPoint } from '../services/mapService';
 import { useAuth } from "../contexts/AuthContext";
@@ -12,14 +12,17 @@ const containerStyle = {
 // Como pegar a posição atual do usuário?
 // Dica: use Geolocation API do navegador
 const center = {
-  lat: -23.55052,
-  lng: -46.633308,
+  lat: -28.2622,
+  lng: -52.4099,
 };
 
 export const Map = () => {
   const { token } = useAuth();
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newPointCoords, setNewPointCoords] = useState(null);
+  const [pointDescription, setPointDescription] = useState("");
   
   // Substitua pela sua chave da API do Google Maps
   const { isLoaded } = useJsApiLoader({
@@ -66,23 +69,24 @@ export const Map = () => {
     setSelectedMarker(null);
   };
 
-  // Função para adicionar ponto ao clicar no mapa
-  const handleMapClick = async (event) => {
-    const lat = event.latLng.lat();
-    const lng = event.latLng.lng();
-    
-    // Show prompt to get description from user
-    const description = prompt("Digite uma descrição para este ponto:", "Novo ponto");
-    
-    // If user cancelled the prompt or entered empty string, don't create the point
-    if (!description || description.trim() === "") {
+  // Function to handle modal close
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setNewPointCoords(null);
+    setPointDescription("");
+  };
+
+  // Function to handle point creation confirmation
+  const handlePointConfirm = async () => {
+    if (!pointDescription.trim()) {
+      alert("Por favor, digite uma descrição para o ponto.");
       return;
     }
-    
+
     const newPoint = {
-      latitude: lat,
-      longitude: lng,
-      description: description.trim(),
+      latitude: newPointCoords.lat,
+      longitude: newPointCoords.lng,
+      description: pointDescription.trim(),
     };
     
     console.log('Attempting to create point:', newPoint);
@@ -104,10 +108,21 @@ export const Map = () => {
         },
       };
       setMarkers((prev) => [...prev, savedMarker]);
+      handleModalClose();
     } catch (error) {
       console.error('Error creating point:', error);
       alert(error.message);
     }
+  };
+
+  // Função para adicionar ponto ao clicar no mapa
+  const handleMapClick = async (event) => {
+    const lat = event.latLng.lat();
+    const lng = event.latLng.lng();
+    
+    // Open modal instead of using prompt
+    setNewPointCoords({ lat, lng });
+    setIsModalOpen(true);
   };
 
   return (
@@ -150,6 +165,47 @@ export const Map = () => {
           <div>Carregando mapa...</div>
         )}
       </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        title="Adicionar Novo Ponto"
+      >
+        <div className="form-group">
+          {newPointCoords && (
+            <div className="coordinates-info">
+              📍 Coordenadas: {newPointCoords.lat.toFixed(6)}, {newPointCoords.lng.toFixed(6)}
+            </div>
+          )}
+        </div>
+        
+        <div className="form-group">
+          <label className="form-label" htmlFor="point-description">
+            Descrição do local *
+          </label>
+          <textarea
+            id="point-description"
+            className="form-textarea"
+            value={pointDescription}
+            onChange={(e) => setPointDescription(e.target.value)}
+            placeholder="Digite uma descrição para este ponto..."
+            autoFocus
+          />
+        </div>
+
+        <div className="modal-actions">
+          <button className="btn btn-cancel" onClick={handleModalClose}>
+            Cancelar
+          </button>
+          <button 
+            className="btn btn-confirm" 
+            onClick={handlePointConfirm}
+            disabled={!pointDescription.trim()}
+          >
+            Adicionar Ponto
+          </button>
+        </div>
+      </Modal>
     </>
   );
 };
